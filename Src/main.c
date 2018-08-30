@@ -38,6 +38,7 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "lcd.h"
+#include "rtc.h"
 
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/
@@ -72,10 +73,12 @@ int main(void)
   /* Configure the system clock to 2 MHz */
   SystemClock_Config();
   
+  RTC_Init();
   LCD_Init();
   
   while (1)
   {
+    RTC_Run();
     LCD_Run();
   }
 }

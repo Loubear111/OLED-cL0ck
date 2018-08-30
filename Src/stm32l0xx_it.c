@@ -38,6 +38,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "stm32l0xx_it.h"
 #include "stm32l0xx_hal.h"
+#include "rtc.h"
 
 /** @addtogroup STM32L0xx_HAL_Examples
   * @{
@@ -51,7 +52,7 @@
 /* Private define ------------------------------------------------------------*/
 /* Private macro -------------------------------------------------------------*/
 /* Private variables ---------------------------------------------------------*/
-/* SPI handler declared in "main.c" file */
+extern RTC_HandleTypeDef RtcHandle;
 /* Private function prototypes -----------------------------------------------*/
 /* Private functions ---------------------------------------------------------*/
 
@@ -163,6 +164,17 @@ void SysTick_Handler(void)
 /*  available peripheral interrupt handler's name please refer to the startup */
 /*  file (startup_stm32l0xx.s).                                               */
 /******************************************************************************/
+
+/**
+  * @brief  This function handles RTC interrupt request.
+  * @param  None
+  * @retval None
+  */
+void RTC_IRQHandler(void)
+{
+  HAL_RTC_AlarmIRQHandler(RTC_GetHandle());
+}
+
 /**
   * @brief  This function handles DMA interrupt request.
   * @param  None

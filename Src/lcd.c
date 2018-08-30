@@ -33,6 +33,7 @@
   
 #include "lcd.h"
 #include "ugui.h"
+#include "rtc.h"
 #include "stm32l0xx_hal_spi.h"
 #include <stdbool.h>
 
@@ -528,6 +529,7 @@ void LCD_Run(void)
   
   if (HAL_GetTick() - lastScreenRefresh >= 100)
   {
+    LCD_Print((char *)RTC_GetTime(), 0, 9);
     lastScreenRefresh = HAL_GetTick();
     drawScreen();
   }

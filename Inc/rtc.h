@@ -1,8 +1,8 @@
 /**
   ******************************************************************************
-  * @file    lcd.h
+  * @file    rtc.h
   * @author  Louis Barrett
-  * @brief   Header file for lcd.c
+  * @brief   Header file for rtc.c
   *          
   ******************************************************************************
   * @attention
@@ -33,33 +33,9 @@
 
 #include "stm32l0xx_hal.h"
 
-// Definition for SPIx Pins
-#define SPIx_PORT                           SPI1
-#define SPIx_SCK_PIN                        GPIO_PIN_3
-#define SPIx_SCK_GPIO_PORT                  GPIOB
-#define SPIx_SCK_AF                         GPIO_AF0_SPI1
-#define SPIx_MOSI_PIN                       GPIO_PIN_5
-#define SPIx_MOSI_GPIO_PORT                 GPIOB
-#define SPIx_MOSI_AF                        GPIO_AF0_SPI1
-#define SPIx_CLK_ENABLE()                   __HAL_RCC_SPI1_CLK_ENABLE()
-#define DMA1_CLK_ENABLE()                   __HAL_RCC_DMA1_CLK_ENABLE()
-#define SPIx_SCK_GPIO_CLK_ENABLE()          __HAL_RCC_GPIOB_CLK_ENABLE()
-#define SPIx_MOSI_GPIO_CLK_ENABLE()         __HAL_RCC_GPIOB_CLK_ENABLE()
-
-// LCD SPIO Pinouts
-#define LCD_DC_GPIOPORT                     GPIOA
-#define LCD_DC_GPIOPIN                      GPIO_PIN_11
-
-#define LCD_CS_GPIOPORT                     GPIOA
-#define LCD_CS_GPIOPIN                      GPIO_PIN_15
-
-#define LCD_RESET_GPIOPORT                  GPIOB
-#define LCD_RESET_GPIOPIN                   GPIO_PIN_1
-  
-void LCD_Init(void);
-
-void LCD_Run(void);
-
-void LCD_Print(char *s, uint16_t x, uint16_t y);
+void RTC_Init(void);
+void RTC_Run(void);
+RTC_HandleTypeDef* RTC_GetHandle(void);
+uint8_t* RTC_GetTime(void);
 
 /************************ (C) COPYRIGHT Louis Barrett *****END OF FILE****/

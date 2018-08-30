@@ -446,6 +446,26 @@
               <FileType>1</FileType>
               <FilePath>../Drivers/STM32L0xx_HAL_Driver/Src/stm32l0xx_hal_spi.c</FilePath>
             </File>
+            <File>
+              <FileName>stm32l0xx_hal_rtc.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Drivers\STM32L0xx_HAL_Driver\Src\stm32l0xx_hal_rtc.c</FilePath>
+            </File>
+            <File>
+              <FileName>stm32l0xx_hal_rtc_ex.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Drivers\STM32L0xx_HAL_Driver\Src\stm32l0xx_hal_rtc_ex.c</FilePath>
+            </File>
+            <File>
+              <FileName>stm32l0xx_hal_tim.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Drivers\STM32L0xx_HAL_Driver\Src\stm32l0xx_hal_tim.c</FilePath>
+            </File>
+            <File>
+              <FileName>stm32l0xx_hal_tim_ex.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Drivers\STM32L0xx_HAL_Driver\Src\stm32l0xx_hal_tim_ex.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -476,6 +496,11 @@
               <FileType>1</FileType>
               <FilePath>..\Src\ugui.c</FilePath>
             </File>
+            <File>
+              <FileName>rtc.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Src\rtc.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -500,6 +525,11 @@
               <FileName>ugui.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\Inc\ugui.h</FilePath>
+            </File>
+            <File>
+              <FileName>rtc.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Inc\rtc.h</FilePath>
             </File>
           </Files>
         </Group>
