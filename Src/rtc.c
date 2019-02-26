@@ -46,6 +46,8 @@ uint8_t aShowTime[50] = {0};
 #define RTC_ASYNCH_PREDIV    0x7C
 #define RTC_SYNCH_PREDIV     0x0127
 
+#define WAKEUP_TIMER_ENABLE 0x32F2
+
 /* Private function prototypes -----------------------------------------------*/\
 /* Private functions ---------------------------------------------------------*/
 
@@ -64,15 +66,18 @@ void HAL_RTC_MspInit(RTC_HandleTypeDef *hrtc)
      - Configure the needed RTC clock source */
   __HAL_RCC_PWR_CLK_ENABLE();
   HAL_PWR_EnableBkUpAccess();
+	
+	__HAL_RCC_BACKUPRESET_FORCE();
+	__HAL_RCC_BACKUPRESET_RELEASE();
   
-  RCC_OscInitStruct.OscillatorType =  RCC_OSCILLATORTYPE_LSI | RCC_OSCILLATORTYPE_LSE;
+  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_LSE;
   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_NONE;
-  RCC_OscInitStruct.LSIState = RCC_LSI_ON;
-  RCC_OscInitStruct.LSEState = RCC_LSE_OFF;
+  RCC_OscInitStruct.LSIState = RCC_LSI_OFF;
+  RCC_OscInitStruct.LSEState = RCC_LSE_ON;
   HAL_RCC_OscConfig(&RCC_OscInitStruct);
 
   PeriphClkInitStruct.PeriphClockSelection = RCC_PERIPHCLK_RTC;
-  PeriphClkInitStruct.RTCClockSelection = RCC_RTCCLKSOURCE_LSI;
+  PeriphClkInitStruct.RTCClockSelection = RCC_RTCCLKSOURCE_LSE;
   HAL_RCCEx_PeriphCLKConfig(&PeriphClkInitStruct);
   
   /*##-2- Enable RTC peripheral Clocks #######################################*/ 
@@ -102,13 +107,35 @@ void RTC_Init(void)
       - OutPutPolarity = High Polarity
       - OutPutType     = Open Drain */
   RtcHandle.Init.HourFormat     = RTC_HOURFORMAT_24;
-  RtcHandle.Init.AsynchPrediv   = RTC_ASYNCH_PREDIV;
-  RtcHandle.Init.SynchPrediv    = RTC_SYNCH_PREDIV;
+//  RtcHandle.Init.AsynchPrediv   = RTC_ASYNCH_PREDIV;
+//  RtcHandle.Init.SynchPrediv    = RTC_SYNCH_PREDIV;
+	RtcHandle.Init.AsynchPrediv   = 127;
+  RtcHandle.Init.SynchPrediv    = 255;
   RtcHandle.Init.OutPut         = RTC_OUTPUT_DISABLE;
   RtcHandle.Init.OutPutPolarity = RTC_OUTPUT_POLARITY_HIGH;
   RtcHandle.Init.OutPutType     = RTC_OUTPUT_TYPE_OPENDRAIN;
   
   HAL_RTC_Init(&RtcHandle);
+	
+	/*##-2- Check if data stored in BackUp register1: Wakeup timer enable #######*/
+  /* Read the Back Up Register 1 Data */
+  if (HAL_RTCEx_BKUPRead(&RtcHandle, RTC_BKP_DR1) == WAKEUP_TIMER_ENABLE)
+  {
+    /* if the wakeup timer is enabled then deactivate it to disable the wakeup timer interrupt */
+    if(HAL_RTCEx_DeactivateWakeUpTimer(&RtcHandle) != HAL_OK)
+    {
+      /* Initialization Error */
+    }
+  }
+  
+  /*##-3- Configure the RTC Wakeup peripheral #################################*/
+  /* Setting the Wakeup time to 1 s
+       If RTC_WAKEUPCLOCK_CK_SPRE_16BITS is selected, the frequency is 1Hz, 
+       this allows to get a wakeup time equal to 1 s if the counter is 0x0 */
+  HAL_RTCEx_SetWakeUpTimer_IT(&RtcHandle, 0x0, RTC_WAKEUPCLOCK_CK_SPRE_16BITS);
+  
+  /*##-4- Write 'wakeup timer enabled' tag in RTC Backup data Register 1 #######*/
+  HAL_RTCEx_BKUPWrite(&RtcHandle, RTC_BKP_DR1, WAKEUP_TIMER_ENABLE);
   
   /* Begin setting the date and time */
   sdatestructure.Year = 0x14;
@@ -119,8 +146,8 @@ void RTC_Init(void)
   HAL_RTC_SetDate(&RtcHandle,&sdatestructure,RTC_FORMAT_BCD);
   
   /* Set Time: 02:20:00 */
-  stimestructure.Hours = 0x01;
-  stimestructure.Minutes = 0x40;
+  stimestructure.Hours = 0x05;
+  stimestructure.Minutes = 0x30;
   stimestructure.Seconds = 0x00;
   stimestructure.TimeFormat = RTC_HOURFORMAT12_AM;
   stimestructure.DayLightSaving = RTC_DAYLIGHTSAVING_NONE ;
@@ -141,7 +168,7 @@ void RTC_Init(void)
   salarmstructure.AlarmTime.Seconds = 0x30;
   salarmstructure.AlarmTime.SubSeconds = 0x56;
   
-  HAL_RTC_SetAlarm_IT(&RtcHandle,&salarmstructure,RTC_FORMAT_BCD);
+  //HAL_RTC_SetAlarm_IT(&RtcHandle,&salarmstructure,RTC_FORMAT_BCD);
 }
 
 RTC_HandleTypeDef* RTC_GetHandle(void)

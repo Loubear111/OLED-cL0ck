@@ -172,7 +172,7 @@ void SysTick_Handler(void)
   */
 void RTC_IRQHandler(void)
 {
-  HAL_RTC_AlarmIRQHandler(RTC_GetHandle());
+  HAL_RTCEx_WakeUpTimerIRQHandler(&RtcHandle);
 }
 
 /**
