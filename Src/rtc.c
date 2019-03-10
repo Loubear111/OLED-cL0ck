@@ -94,7 +94,7 @@ void RTC_Init(void)
 {
   RTC_DateTypeDef  sdatestructure;
   RTC_TimeTypeDef  stimestructure;
-  RTC_AlarmTypeDef salarmstructure;
+//  RTC_AlarmTypeDef salarmstructure;
   
   RtcHandle.Instance = RTC;
 
@@ -157,16 +157,16 @@ void RTC_Init(void)
 
   /* Set Alarm to 02:20:30 
      RTC Alarm Generation: Alarm on Hours, Minutes and Seconds */
-  salarmstructure.Alarm = RTC_ALARM_A;
-  salarmstructure.AlarmDateWeekDay = RTC_WEEKDAY_MONDAY;
-  salarmstructure.AlarmDateWeekDaySel = RTC_ALARMDATEWEEKDAYSEL_WEEKDAY;
-  salarmstructure.AlarmMask = RTC_ALARMMASK_DATEWEEKDAY;
-  salarmstructure.AlarmSubSecondMask = RTC_ALARMSUBSECONDMASK_NONE;
-  salarmstructure.AlarmTime.TimeFormat = RTC_HOURFORMAT12_AM;
-  salarmstructure.AlarmTime.Hours = 0x02;
-  salarmstructure.AlarmTime.Minutes = 0x20;
-  salarmstructure.AlarmTime.Seconds = 0x30;
-  salarmstructure.AlarmTime.SubSeconds = 0x56;
+//  salarmstructure.Alarm = RTC_ALARM_A;
+//  salarmstructure.AlarmDateWeekDay = RTC_WEEKDAY_MONDAY;
+//  salarmstructure.AlarmDateWeekDaySel = RTC_ALARMDATEWEEKDAYSEL_WEEKDAY;
+//  salarmstructure.AlarmMask = RTC_ALARMMASK_DATEWEEKDAY;
+//  salarmstructure.AlarmSubSecondMask = RTC_ALARMSUBSECONDMASK_NONE;
+//  salarmstructure.AlarmTime.TimeFormat = RTC_HOURFORMAT12_AM;
+//  salarmstructure.AlarmTime.Hours = 0x02;
+//  salarmstructure.AlarmTime.Minutes = 0x20;
+//  salarmstructure.AlarmTime.Seconds = 0x30;
+//  salarmstructure.AlarmTime.SubSeconds = 0x56;
   
   //HAL_RTC_SetAlarm_IT(&RtcHandle,&salarmstructure,RTC_FORMAT_BCD);
 }

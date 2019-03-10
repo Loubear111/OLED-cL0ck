@@ -35,6 +35,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "lcd.h"
 #include "rtc.h"
+#include "gpio.h"
 
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/
@@ -71,11 +72,21 @@ int main(void)
   
   RTC_Init();
   LCD_Init();
+	GPIO_Init();
+	
+	for(int i = 0; i < 4; i++)
+	{
+		DEBUG_LED1_SET();
+		HAL_Delay(250);
+		DEBUG_LED1_RESET();
+		HAL_Delay(250);
+	}
   
   while (1)
   {
     RTC_Run();
     LCD_Run();
+		GPIO_Run();
   }
 }
 
